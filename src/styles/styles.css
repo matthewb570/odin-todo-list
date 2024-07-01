@@ -45,6 +45,18 @@ header {
     box-sizing: border-box;
 }
 
+.todo.low-priority {
+    border-color: green;
+}
+
+.todo.medium-priority {
+    border-color: gold;
+}
+
+.todo.high-priority {
+    border-color: red;
+}
+
 .todo .button-list {
     display: flex;
     gap: 20px;

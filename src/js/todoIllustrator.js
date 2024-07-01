@@ -13,10 +13,25 @@ const todoIllustrator = new function() {
         divTodo.appendChild(createTextContent(todo.title, todo.description));
         divTodo.appendChild(createDueDate(todo.dueDate));
         divTodo.appendChild(createButtons());
+        setTodoPriority(divTodo, todo.priority);
 
         return divTodo;
     }
     
+    const setTodoPriority = (divTodo, priority) => {
+        switch(priority) {
+            case 0:
+                divTodo.classList.add('low-priority');
+                break;
+            case 1:
+                divTodo.classList.add('medium-priority');
+                break;
+            case 2:
+                divTodo.classList.add('high-priority');
+                break;
+        }
+    }
+
     const createCheckbox = (isDone) => {
         const chkIsDone = document.createElement('input');
         chkIsDone.type = 'checkbox';
