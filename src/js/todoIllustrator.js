@@ -44,7 +44,7 @@ const todoIllustrator = new function() {
     const createDueDate = (dueDate) => {
         const divDueDate = document.createElement('div');
         divDueDate.classList.add('todo-due-date');
-        divDueDate.textContent = `Due date: ${dueDate}`;
+        divDueDate.textContent = dueDate;
 
         return divDueDate;
     }
@@ -53,12 +53,10 @@ const todoIllustrator = new function() {
         const btnEdit = document.createElement('button');
         btnEdit.classList.add('icon');
         btnEdit.classList.add('edit');
-        btnEdit.textContent = 'Edit';
 
         const btnDelete = document.createElement('button');
         btnDelete.classList.add('icon');
         btnDelete.classList.add('delete');
-        btnDelete.textContent = 'Delete';
         
         const divButtons = document.createElement('div');
         divButtons.classList.add('button-list');
