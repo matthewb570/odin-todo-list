@@ -19,7 +19,7 @@ const todoIllustrator = new function() {
     }
     
     const setTodoPriority = (divTodo, priority) => {
-        switch(priority) {
+        switch(parseInt(priority)) {
             case 0:
                 divTodo.classList.add('low-priority');
                 break;
