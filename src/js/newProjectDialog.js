@@ -21,6 +21,7 @@ class NewProjectDialog {
         this.btnClose.textContent = 'Close';
         this.btnClose.addEventListener('click', () => {
             this.dialog.close();
+            this.form.reset();
         })
     }
 

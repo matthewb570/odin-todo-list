@@ -96,7 +96,7 @@ class ProjectsPage {
 
         btnEdit.addEventListener('click', (event) => {
             event.stopPropagation();
-            // TODO: Add full handling
+            this.newProjectDialog.openDialog(project, this.projectList, this.draw.bind(this));
         });
 
         const btnDelete = document.createElement('button');
