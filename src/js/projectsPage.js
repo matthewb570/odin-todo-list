@@ -1,23 +1,29 @@
 import ProjectPage from './projectPage.js';
 import DomUtils from './domUtils.js';
+import Project from './project.js';
 
 class ProjectsPage {
     static createPage(divContainer, projectList) {
         DomUtils.clearContainer(divContainer);
-        divContainer.appendChild(ProjectsPage.drawPageHeader());
+        divContainer.appendChild(ProjectsPage.drawPageHeader(divContainer, projectList));
         divContainer.appendChild(ProjectsPage.drawPageContent(divContainer, projectList));
     }
 
-    static drawPageHeader() {
+    static drawPageHeader(divContainer, projectList) {
         const divPageTitle = document.createElement('div');
         divPageTitle.id='page-title';
         divPageTitle.textContent = 'Projects';
 
         const btnAdd = document.createElement('button');
         btnAdd.id = 'btn-add';
-        btnAdd.type='button'
+        btnAdd.type = 'button'
         btnAdd.classList.add('icon');
         btnAdd.textContent = 'Add';
+        btnAdd.addEventListener('click', function() {
+            // TODO: Replace with actual logic
+            projectList.addProject(new Project('A project', new Array()));
+            ProjectsPage.createPage(divContainer, projectList);
+        });
 
         const headPageHeader = document.createElement('header');
         headPageHeader.appendChild(divPageTitle);
@@ -50,7 +56,7 @@ class ProjectsPage {
         divProject.id = project.id;
 
         divProject.appendChild(ProjectsPage.drawProjectTitle(project));
-        divProject.appendChild(ProjectsPage.drawProjectButtons());
+        divProject.appendChild(ProjectsPage.drawProjectButtons(projectPageContainer, project, projectList));
 
         const projectsPageReturnFunction = () => {
             ProjectsPage.createPage(projectPageContainer, projectList);
@@ -72,7 +78,7 @@ class ProjectsPage {
         return divProjectTitle;
     }
 
-    static drawProjectButtons() {
+    static drawProjectButtons(projectPageContainer, project, projectList) {
         const btnEdit = document.createElement('button');
         btnEdit.classList.add('edit', 'icon');
         btnEdit.type='button';
@@ -87,7 +93,8 @@ class ProjectsPage {
         btnDelete.type='button';
         btnDelete.addEventListener('click', function(event) {
             event.stopPropagation();
-            // TODO: Add full handling
+            projectList.removeProject(project.id);
+            ProjectsPage.createPage(projectPageContainer, projectList)
         });
         
         const divProjectButtons = document.createElement('div');
