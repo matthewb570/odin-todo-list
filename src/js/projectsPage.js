@@ -1,15 +1,18 @@
 import ProjectPage from './projectPage.js';
 import DomUtils from './domUtils.js';
-import Project from './project.js';
+import NewProjectDialog from './newProjectDialog.js';
 
 class ProjectsPage {
     static createPage(divContainer, projectList) {
         DomUtils.clearContainer(divContainer);
-        divContainer.appendChild(ProjectsPage.drawPageHeader(divContainer, projectList));
+        
+        const dialogNewProjectDialog = NewProjectDialog.createNewProjectDialog(projectList, () => ProjectsPage.createPage(divContainer, projectList));
+        divContainer.appendChild(ProjectsPage.drawPageHeader(() => dialogNewProjectDialog.showModal()));
         divContainer.appendChild(ProjectsPage.drawPageContent(divContainer, projectList));
+        divContainer.appendChild(dialogNewProjectDialog);
     }
 
-    static drawPageHeader(divContainer, projectList) {
+    static drawPageHeader(addFunction) {
         const divPageTitle = document.createElement('div');
         divPageTitle.id='page-title';
         divPageTitle.textContent = 'Projects';
@@ -19,11 +22,7 @@ class ProjectsPage {
         btnAdd.type = 'button'
         btnAdd.classList.add('icon');
         btnAdd.textContent = 'Add';
-        btnAdd.addEventListener('click', function() {
-            // TODO: Replace with actual logic
-            projectList.addProject(new Project('A project', new Array()));
-            ProjectsPage.createPage(divContainer, projectList);
-        });
+        btnAdd.addEventListener('click', addFunction);
 
         const headPageHeader = document.createElement('header');
         headPageHeader.appendChild(divPageTitle);
