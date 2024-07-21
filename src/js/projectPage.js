@@ -6,7 +6,7 @@ class ProjectPage {
     static createPage(container, project, returnFunction) {
         DomUtils.clearContainer(container);
         container.appendChild(ProjectPage.drawPageHeader(container, project, returnFunction));
-        container.appendChild(ProjectPage.drawPageContent(project));
+        container.appendChild(ProjectPage.drawPageContent(container, project, returnFunction));
     }
 
     // TODO: Replace "draw" with "create" throughout
@@ -41,20 +41,26 @@ class ProjectPage {
         return headPageHeader;
     }
 
-    static drawPageContent(project) {
+    static drawPageContent(container, project, returnFunction) {
         const divPageContent = document.createElement('div');
         divPageContent.id = 'content';
 
-        divPageContent.appendChild(ProjectPage.drawTodoList(project.todos));
+        divPageContent.appendChild(ProjectPage.drawTodoList(container, project, returnFunction));
 
         return divPageContent;
     }
 
-    static drawTodoList(todos) {
+    static drawTodoList(container, project, returnFunction) {
         const divTodoList = document.createElement('div');
         divTodoList.classList.add('todo-list');
-        
-        todos.forEach(todo => divTodoList.appendChild(TodoPageComponent.createTodoElement(todo)));
+
+        project.todos.forEach(todo => {
+            const deleteFunction = () => {
+                project.removeTodo(todo.id);
+                ProjectPage.createPage(container, project, returnFunction);
+            }
+            divTodoList.appendChild(TodoPageComponent.createTodoElement(todo, deleteFunction));
+        });
 
         return divTodoList;
     }
