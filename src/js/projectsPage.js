@@ -6,10 +6,11 @@ class ProjectsPage {
     static createPage(divContainer, projectList) {
         DomUtils.clearContainer(divContainer);
         
-        const dialogNewProjectDialog = NewProjectDialog.createNewProjectDialog(projectList, () => ProjectsPage.createPage(divContainer, projectList));
-        divContainer.appendChild(ProjectsPage.drawPageHeader(() => dialogNewProjectDialog.showModal()));
+        const dialogNewProjectDialog = new NewProjectDialog(divContainer);
+
+        divContainer.appendChild(ProjectsPage.drawPageHeader(() => dialogNewProjectDialog.openDialog(divContainer, null, projectList, () => ProjectsPage.createPage(divContainer, projectList))));
         divContainer.appendChild(ProjectsPage.drawPageContent(divContainer, projectList));
-        divContainer.appendChild(dialogNewProjectDialog);
+        dialogNewProjectDialog.draw(divContainer);
     }
 
     static drawPageHeader(addFunction) {

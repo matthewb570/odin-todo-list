@@ -7,8 +7,12 @@ class ProjectList {
         this.projects.push(project);
     }
 
+    findProjectIndex(id) {
+        return this.projects.findIndex(project => project.id === id);
+    }
+
     removeProject(id) {
-        let indexToRemove = this.projects.findIndex(project => project.id === id);
+        let indexToRemove = findProjectIndex();
         this.projects.splice(indexToRemove, 1);
     }
 }

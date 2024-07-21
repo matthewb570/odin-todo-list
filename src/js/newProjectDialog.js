@@ -1,75 +1,92 @@
 import Project from "./project";
 
 class NewProjectDialog {
-    static createNewProjectDialog(projectList, createProjectsPage) {
-        const dialogNewProject = document.createElement('dialog');
-        dialogNewProject.id = 'dialog-new-project';
 
-        dialogNewProject.appendChild(NewProjectDialog.createCloseButton((event) => {
-            dialogNewProject.close();
-        }));
+    dialog;
+    form;
+    txtTitle;
+    btnSave;
+    btnClose;
 
-        dialogNewProject.appendChild(NewProjectDialog.createForm(projectList, dialogNewProject, createProjectsPage));
-
-        return dialogNewProject;
+    constructor() {
+        this.initializeCloseButton()
+        this.initializeSaveButton();
+        this.initializeForm();
+        this.initializeDialog();
     }
 
-    static createForm(projectList, dialogNewProject, createProjectsPage) {
+    initializeCloseButton() {
+        this.btnClose = document.createElement('button');
+        this.btnClose.id = 'btn-new-project-form-close';
+        this.btnClose.textContent = 'Close';
+        this.btnClose.addEventListener('click', () => {
+            this.dialog.close();
+        })
+    }
+
+    initializeSaveButton() {
+        this.btnSave = document.createElement('button');
+        this.btnSave.id = 'btn-save-new-project';
+        this.btnSave.type = 'submit';
+        this.btnSave.textContent = 'Save';
+    }
+
+    initializeForm() {
         const divTitleLabel = document.createElement('div');
         divTitleLabel.textContent = 'Title';
 
-        const txtTitle = document.createElement('input');
-        txtTitle.id = 'txt-new-project-title';
-        txtTitle.name = 'txtTitle';
-        txtTitle.type = 'text';
+        this.txtTitle = document.createElement('input');
+        this.txtTitle.id = 'txt-new-project-title';
+        this.txtTitle.name = 'txtTitle';
+        this.txtTitle.type = 'text';
 
         const lblTitle = document.createElement('label');
         lblTitle.for = 'txt-title';
         lblTitle.appendChild(divTitleLabel);
-        lblTitle.appendChild(txtTitle);
+        lblTitle.appendChild(this.txtTitle);
+
+
+        this.form = document.createElement('form');
+        this.form.id = 'form-new-project';
+        this.form.action = 'dialog';
         
-        const formNewProject = document.createElement('form');
-        formNewProject.id = 'form-new-project';
-        formNewProject.action = 'dialog';
-        
-        formNewProject.appendChild(lblTitle);
+        this.form.appendChild(lblTitle);
+        this.form.appendChild(this.btnSave);
+    }
 
-        const saveFunction = (event) => {
-            event.preventDefault();
-            
-            if (formNewProject.reportValidity()) {
-                let project = new Project(txtTitle.value, new Array());
-                projectList.addProject(project);
+    initializeDialog() {
+        this.dialog = document.createElement('dialog');
+        this.dialog.id = 'dialog-new-project';
+        this.dialog.appendChild(this.btnClose);
+        this.dialog.appendChild(this.form);
+    }
 
-                createProjectsPage();
+    draw(container) {
+        container.appendChild(this.dialog);
+    }
 
-                dialogNewProject.close();
-                formNewProject.reset();
-            }
+    openDialog(parentContainer, existingProject, projectList, refreshPageFunction) {
+        if (existingProject !== null) {
+            this.txtTitle.value = existingProject.title;
+            this.btnSave.addEventListener('click', (event) => {
+                event.preventDefault();
+                let index = projectList.findProjectIndex(existingProject.id);
+                projectList.projects[index].title = this.txtTitle.value;
+                this.dialog.close();
+                this.form.reset();
+                refreshPageFunction();
+            });
+        } else {
+            this.btnSave.addEventListener('click', (event) => {
+                event.preventDefault();
+                let newProject = new Project(this.txtTitle.value, new Array());
+                projectList.addProject(newProject);
+                this.dialog.close();
+                this.form.reset();
+                refreshPageFunction();
+            });
         }
-
-        formNewProject.appendChild(NewProjectDialog.createSaveButton(saveFunction));
-
-        return formNewProject;
-    }
-
-    static createCloseButton(closeFunction) {
-        const btnClose = document.createElement('button');
-        btnClose.id = 'btn-new-project-form-close';
-        btnClose.textContent = 'Close';
-        btnClose.addEventListener('click', closeFunction);
-
-        return btnClose;
-    }
-
-    static createSaveButton(saveFunction) {
-        const btnSave = document.createElement('button');
-        btnSave.id = 'btn-save-new-project';
-        btnSave.type = 'submit';
-        btnSave.textContent = 'Save';
-        btnSave.addEventListener('click', saveFunction);
-
-        return btnSave;
+        this.dialog.showModal();
     }
 }
 
