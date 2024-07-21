@@ -12,7 +12,7 @@ class ProjectList {
     }
 
     removeProject(id) {
-        let indexToRemove = findProjectIndex();
+        let indexToRemove = this.findProjectIndex(id);
         this.projects.splice(indexToRemove, 1);
     }
 }

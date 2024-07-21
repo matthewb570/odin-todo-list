@@ -3,19 +3,22 @@ import DomUtils from './domUtils.js';
 import NewProjectDialog from './newProjectDialog.js';
 
 class ProjectsPage {
-    static createPage(divContainer, projectList) {
-        DomUtils.clearContainer(divContainer);
-        
-        const dialogNewProjectDialog = new NewProjectDialog(divContainer);
 
-        divContainer.appendChild(ProjectsPage.drawPageHeader(() => dialogNewProjectDialog.openDialog(divContainer, null, projectList, () => ProjectsPage.createPage(divContainer, projectList))));
-        divContainer.appendChild(ProjectsPage.drawPageContent(divContainer, projectList));
-        dialogNewProjectDialog.draw(divContainer);
+    parentContainer;
+    projectList;
+    newProjectDialog;
+    pageHeader;
+    
+    constructor(parentContainer, projectList) {
+        this.parentContainer = parentContainer;
+        this.projectList = projectList;
+        this.newProjectDialog = new NewProjectDialog();
+        this.initializePageHeader();
     }
 
-    static drawPageHeader(addFunction) {
+    initializePageHeader() {
         const divPageTitle = document.createElement('div');
-        divPageTitle.id='page-title';
+        divPageTitle.id = 'page-title';
         divPageTitle.textContent = 'Projects';
 
         const btnAdd = document.createElement('button');
@@ -23,53 +26,61 @@ class ProjectsPage {
         btnAdd.type = 'button'
         btnAdd.classList.add('icon');
         btnAdd.textContent = 'Add';
-        btnAdd.addEventListener('click', addFunction);
+        btnAdd.addEventListener('click', () => {
+            this.newProjectDialog.openDialog(null, this.projectList, this.draw.bind(this));
+        });
 
-        const headPageHeader = document.createElement('header');
-        headPageHeader.appendChild(divPageTitle);
-        headPageHeader.appendChild(btnAdd);
-
-        return headPageHeader;
+        this.pageHeader = document.createElement('header');
+        this.pageHeader.appendChild(divPageTitle);
+        this.pageHeader.appendChild(btnAdd);
     }
 
-    static drawPageContent(projectPageContainer, projectList) {
-        const divPageContent = document.createElement('div');
-        divPageContent.id = 'content';
+    createPageContent() {
+        const pageContent = document.createElement('div');
+        pageContent.id = 'content';
 
-        divPageContent.appendChild(ProjectsPage.drawProjectList(projectPageContainer, projectList));
-        
-        return divPageContent;
+        pageContent.appendChild(this.createDivProjectList());
+
+        return pageContent;
     }
 
-    static drawProjectList(projectPageContainer, projectList) {
+    createDivProjectList() {
         const divProjectList = document.createElement('div');
         divProjectList.classList.add('project-list');
         
-        projectList.projects.forEach(project => divProjectList.appendChild(ProjectsPage.drawProject(projectPageContainer, project, projectList)));
+        this.projectList.projects.forEach(project => divProjectList.appendChild(this.createProject(project)));
 
         return divProjectList;
     }
 
-    static drawProject(projectPageContainer, project, projectList) {
+    draw() {
+        DomUtils.clearContainer(this.parentContainer);
+        
+        this.parentContainer.appendChild(this.pageHeader);
+        this.parentContainer.appendChild(this.createPageContent());
+        this.newProjectDialog.draw(this.parentContainer);
+    }
+
+    createProject(project) {
         const divProject = document.createElement('div');
         divProject.classList.add('project');
         divProject.id = project.id;
 
-        divProject.appendChild(ProjectsPage.drawProjectTitle(project));
-        divProject.appendChild(ProjectsPage.drawProjectButtons(projectPageContainer, project, projectList));
+        divProject.appendChild(this.createProjectTitle(project));
+        divProject.appendChild(this.createProjectButtons(project));
 
         const projectsPageReturnFunction = () => {
-            ProjectsPage.createPage(projectPageContainer, projectList);
+            this.draw();
         }
 
-        divProject.addEventListener('click', function() {
-            ProjectPage.createPage(projectPageContainer, project, projectsPageReturnFunction);
+        divProject.addEventListener('click', () => {
+            ProjectPage.createPage(this.parentContainer, project, projectsPageReturnFunction);
         });
 
         return divProject;
     }
 
-    static drawProjectTitle(project) {
+    createProjectTitle(project) {
         const divProjectTitle = document.createElement('div');
         divProjectTitle.classList.add('project-title');
 
@@ -78,12 +89,12 @@ class ProjectsPage {
         return divProjectTitle;
     }
 
-    static drawProjectButtons(projectPageContainer, project, projectList) {
+    createProjectButtons(project) {
         const btnEdit = document.createElement('button');
         btnEdit.classList.add('edit', 'icon');
         btnEdit.type='button';
 
-        btnEdit.addEventListener('click', function(event) {
+        btnEdit.addEventListener('click', (event) => {
             event.stopPropagation();
             // TODO: Add full handling
         });
@@ -91,10 +102,10 @@ class ProjectsPage {
         const btnDelete = document.createElement('button');
         btnDelete.classList.add('delete', 'icon');
         btnDelete.type='button';
-        btnDelete.addEventListener('click', function(event) {
+        btnDelete.addEventListener('click', (event) => {
             event.stopPropagation();
-            projectList.removeProject(project.id);
-            ProjectsPage.createPage(projectPageContainer, projectList)
+            this.projectList.removeProject(project.id);
+            this.draw();
         });
         
         const divProjectButtons = document.createElement('div');

@@ -65,26 +65,26 @@ class NewProjectDialog {
         container.appendChild(this.dialog);
     }
 
-    openDialog(parentContainer, existingProject, projectList, refreshPageFunction) {
+    openDialog(existingProject, projectList, refreshPageFunction) {
         if (existingProject !== null) {
             this.txtTitle.value = existingProject.title;
-            this.btnSave.addEventListener('click', (event) => {
+            this.btnSave.onclick = (event) => {
                 event.preventDefault();
                 let index = projectList.findProjectIndex(existingProject.id);
                 projectList.projects[index].title = this.txtTitle.value;
                 this.dialog.close();
                 this.form.reset();
                 refreshPageFunction();
-            });
+            };
         } else {
-            this.btnSave.addEventListener('click', (event) => {
+            this.btnSave.onclick = (event) => {
                 event.preventDefault();
                 let newProject = new Project(this.txtTitle.value, new Array());
                 projectList.addProject(newProject);
                 this.dialog.close();
                 this.form.reset();
                 refreshPageFunction();
-            });
+            };
         }
         this.dialog.showModal();
     }
