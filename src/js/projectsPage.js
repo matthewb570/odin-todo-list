@@ -1,7 +1,11 @@
+import ProjectPage from './projectPage.js';
+import DomUtils from './domUtils.js';
+
 class ProjectsPage {
     static createPage(divContainer, projectList) {
+        DomUtils.clearContainer(divContainer);
         divContainer.appendChild(ProjectsPage.drawPageHeader());
-        divContainer.appendChild(ProjectsPage.drawPageContent(projectList));
+        divContainer.appendChild(ProjectsPage.drawPageContent(divContainer, projectList));
     }
 
     static drawPageHeader() {
@@ -20,43 +24,50 @@ class ProjectsPage {
         headPageHeader.appendChild(btnAdd);
 
         return headPageHeader;
-    
     }
 
-    static drawPageContent(projectList) {
+    static drawPageContent(projectPageContainer, projectList) {
         const divPageContent = document.createElement('div');
         divPageContent.id = 'content';
 
-        divPageContent.appendChild(ProjectsPage.drawProjectList(projectList));
+        divPageContent.appendChild(ProjectsPage.drawProjectList(projectPageContainer, projectList));
         
         return divPageContent;
     }
 
-    static drawProjectList(projectList) {
+    static drawProjectList(projectPageContainer, projectList) {
         const divProjectList = document.createElement('div');
         divProjectList.classList.add('project-list');
         
-        projectList.projects.forEach(project => divProjectList.appendChild(ProjectsPage.drawProject(project)));
+        projectList.projects.forEach(project => divProjectList.appendChild(ProjectsPage.drawProject(projectPageContainer, project, projectList)));
 
         return divProjectList;
     }
 
-    static drawProject(project) {
+    static drawProject(projectPageContainer, project, projectList) {
         const divProject = document.createElement('div');
         divProject.classList.add('project');
         divProject.id = project.id;
 
-        divProject.appendChild(ProjectsPage.drawProjectTitle(project.title));
+        divProject.appendChild(ProjectsPage.drawProjectTitle(project));
         divProject.appendChild(ProjectsPage.drawProjectButtons());
+
+        const projectsPageReturnFunction = () => {
+            ProjectsPage.createPage(projectPageContainer, projectList);
+        }
+
+        divProject.addEventListener('click', function() {
+            ProjectPage.createPage(projectPageContainer, project, projectsPageReturnFunction);
+        });
 
         return divProject;
     }
 
-    static drawProjectTitle(projectTitle) {
+    static drawProjectTitle(project) {
         const divProjectTitle = document.createElement('div');
         divProjectTitle.classList.add('project-title');
 
-        divProjectTitle.textContent = projectTitle;
+        divProjectTitle.textContent = project.title;
 
         return divProjectTitle;
     }
@@ -66,9 +77,18 @@ class ProjectsPage {
         btnEdit.classList.add('edit', 'icon');
         btnEdit.type='button';
 
+        btnEdit.addEventListener('click', function(event) {
+            event.stopPropagation();
+            // TODO: Add full handling
+        });
+
         const btnDelete = document.createElement('button');
         btnDelete.classList.add('delete', 'icon');
         btnDelete.type='button';
+        btnDelete.addEventListener('click', function(event) {
+            event.stopPropagation();
+            // TODO: Add full handling
+        });
         
         const divProjectButtons = document.createElement('div');
         divProjectButtons.classList.add('button-list');
