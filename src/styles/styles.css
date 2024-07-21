@@ -39,6 +39,7 @@ header {
     align-items: center;
 }
 
+.project-list,
 .todo-list {
     display: flex;
     flex-direction: column;
@@ -48,6 +49,7 @@ header {
     padding: 20px;
 }
 
+.project,
 .todo {
     display: flex;
     align-items: center;
@@ -72,9 +74,16 @@ header {
     border-color: red;
 }
 
+.project .button-list,
 .todo .button-list {
     display: flex;
     gap: 20px;
+}
+
+.project .button-list {
+    flex: 1;
+    
+    justify-content: flex-end;
 }
 
 .todo .todo-due-date {
@@ -88,6 +97,7 @@ header {
     margin-right: 30px;
 }
 
+.project .project-title,
 .todo .todo-title {
     font-size: 2rem;
     font-weight: 700;
@@ -98,6 +108,7 @@ header {
     color: var(--secondary-text-color);
 }
 
+.project button.icon,
 .todo button.icon {
     border: none;
     background-color: black;
