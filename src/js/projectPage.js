@@ -30,9 +30,7 @@ class ProjectPage {
         btnAdd.classList.add('icon', 'plus');
         btnAdd.textContent = 'Add';
         btnAdd.onclick = () => {
-            // TODO: Replace with actual logic
-            this.project.addTodo(new Todo('Title', 'Description', '07/22/2024', 1, false));
-            this.draw();
+            this.newTodoDialog.openDialog(null, this.project, this.draw.bind(this));
         };
 
         const btnBack = document.createElement('button');
