@@ -1,12 +1,12 @@
 class TodoPageComponent {
 
-    static createTodoElement(todo, deleteFunction) {
+    static createTodoElement(todo, editFunction, deleteFunction) {
         const divTodo = document.createElement('div');
         divTodo.classList.add('todo');
         divTodo.appendChild(TodoPageComponent.createCheckbox(todo.isDone));
         divTodo.appendChild(TodoPageComponent.createTextContent(todo.title, todo.description));
         divTodo.appendChild(TodoPageComponent.createDueDate(todo.dueDate));
-        divTodo.appendChild(TodoPageComponent.createButtons(deleteFunction));
+        divTodo.appendChild(TodoPageComponent.createButtons(editFunction, deleteFunction));
         TodoPageComponent.setTodoPriority(divTodo, todo.priority);
 
         return divTodo;
@@ -58,15 +58,16 @@ class TodoPageComponent {
         return divDueDate;
     }
 
-    static createButtons(deleteFunction) {
+    static createButtons(editFunction, deleteFunction) {
         const btnEdit = document.createElement('button');
         btnEdit.classList.add('icon');
         btnEdit.classList.add('edit');
+        btnEdit.onclick = editFunction;
 
         const btnDelete = document.createElement('button');
         btnDelete.classList.add('icon');
         btnDelete.classList.add('delete');
-        btnDelete.addEventListener('click', deleteFunction);
+        btnDelete.onclick = deleteFunction;
         
         const divButtons = document.createElement('div');
         divButtons.classList.add('button-list');

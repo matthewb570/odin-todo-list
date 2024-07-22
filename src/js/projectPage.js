@@ -68,11 +68,14 @@ class ProjectPage {
         divTodoList.classList.add('todo-list');
 
         this.project.todos.forEach(todo => {
+            const editFunction = () => {
+                this.newTodoDialog.openDialog(todo, this.project, this.draw.bind(this));
+            }
             const deleteFunction = () => {
                 this.project.removeTodo(todo.id);
                 this.draw();
             }
-            divTodoList.appendChild(TodoPageComponent.createTodoElement(todo, deleteFunction));
+            divTodoList.appendChild(TodoPageComponent.createTodoElement(todo, editFunction, deleteFunction));
         });
 
         return divTodoList;
