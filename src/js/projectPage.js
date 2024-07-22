@@ -1,6 +1,5 @@
-import TodoPageComponent from './todoPageComponent.js';
+import TodoDomUtils from './todoDomUtils.js';
 import DomUtils from './domUtils.js';
-import Todo from './todo.js';
 import NewTodoDialog from './newTodoDialog.js';
 
 class ProjectPage {
@@ -75,7 +74,7 @@ class ProjectPage {
                 this.project.removeTodo(todo.id);
                 this.draw();
             }
-            divTodoList.appendChild(TodoPageComponent.createTodoElement(todo, editFunction, deleteFunction));
+            divTodoList.appendChild(TodoDomUtils.createTodoElement(todo, editFunction, deleteFunction));
         });
 
         return divTodoList;

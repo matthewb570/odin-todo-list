@@ -1,24 +1,18 @@
-// TODO: Consider refactoring this to class format
+class TodoDomUtils {
 
-const todoIllustrator = new function() {
-    
-    const drawTodo = (divContainer, todo) => {
-        divContainer.appendChild(createTodoElement(todo));
-    }
-
-    const createTodoElement = (todo) => {
+    static createTodoElement(todo, editFunction, deleteFunction) {
         const divTodo = document.createElement('div');
         divTodo.classList.add('todo');
-        divTodo.appendChild(createCheckbox(todo.isDone));
-        divTodo.appendChild(createTextContent(todo.title, todo.description));
-        divTodo.appendChild(createDueDate(todo.dueDate));
-        divTodo.appendChild(createButtons());
-        setTodoPriority(divTodo, todo.priority);
+        divTodo.appendChild(this.createCheckbox(todo.isDone));
+        divTodo.appendChild(this.createTextContent(todo.title, todo.description));
+        divTodo.appendChild(this.createDueDate(todo.dueDate));
+        divTodo.appendChild(this.createButtons(editFunction, deleteFunction));
+        this.setTodoPriority(divTodo, todo.priority);
 
         return divTodo;
     }
     
-    const setTodoPriority = (divTodo, priority) => {
+    static setTodoPriority(divTodo, priority) {
         switch(parseInt(priority)) {
             case 0:
                 divTodo.classList.add('low-priority');
@@ -32,14 +26,14 @@ const todoIllustrator = new function() {
         }
     }
 
-    const createCheckbox = (isDone) => {
+    static createCheckbox(isDone) {
         const chkIsDone = document.createElement('input');
         chkIsDone.type = 'checkbox';
         chkIsDone.checked = isDone;
         return chkIsDone;
     }
 
-    const createTextContent = (title, description) => {
+    static createTextContent(title, description) {
         const divTitle = document.createElement('div');
         divTitle.classList.add('todo-title');
         divTitle.textContent = title;
@@ -56,7 +50,7 @@ const todoIllustrator = new function() {
         return divTextContent;
     }
 
-    const createDueDate = (dueDate) => {
+    static createDueDate(dueDate) {
         const divDueDate = document.createElement('div');
         divDueDate.classList.add('todo-due-date');
         divDueDate.textContent = dueDate;
@@ -64,14 +58,16 @@ const todoIllustrator = new function() {
         return divDueDate;
     }
 
-    const createButtons = () => {
+    static createButtons(editFunction, deleteFunction) {
         const btnEdit = document.createElement('button');
         btnEdit.classList.add('icon');
         btnEdit.classList.add('edit');
+        btnEdit.onclick = editFunction;
 
         const btnDelete = document.createElement('button');
         btnDelete.classList.add('icon');
         btnDelete.classList.add('delete');
+        btnDelete.onclick = deleteFunction;
         
         const divButtons = document.createElement('div');
         divButtons.classList.add('button-list');
@@ -80,8 +76,6 @@ const todoIllustrator = new function() {
         
         return divButtons;
     }
-
-    return { drawTodo };
 }
 
-export default todoIllustrator;
+export default TodoDomUtils;

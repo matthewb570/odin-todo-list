@@ -1,10 +1,31 @@
 import '../styles/styles.css';
+import Project from './project.js';
 import Todo from './todo.js';
-import domManager from './domManager.js';
+import ProjectsPage from './projectsPage.js';
+import ProjectList from './projectList.js';
 
 // TODO: Refactor/reorganize this code as needed
 
+// TODO: Update styles
+// TODO: Add file read/write functionality
+// TODO: Revise date formatting (optional)
+
+const todo = new Todo('A task to complete', 'Involves various steps that need to be completed in a certain order.', '2024-07-21', 0, false);
+const project = new Project('Project 1', new Array(todo));
+console.log(project);
+project.addTodo(new Todo('Something', 'Something', '2024-07-22', 0, false));
+console.log(project);
+// project.removeTodo(todo.id);
+// console.log(project);
+
 const divContent = document.querySelector('#content');
+const body = document.querySelector('body');
+
+const projectsPage = new ProjectsPage(body, new ProjectList(new Array(project)));
+projectsPage.draw();
+
+// ProjectsPage.createPage(body, new ProjectList(new Array(project)));
+// ProjectPage.createPage(body, project);
 
 // const todo1 = new Todo('A task to complete', 'Involves various steps that need to be completed in a certain order.', '07/05/2024', 0, true);
 // const todo2 = new Todo('Another task to complete', 'Involves additional steps that need to be completed in a certain order.', '07/06/2024', 1, false);
@@ -33,7 +54,7 @@ const dtDueDate = document.querySelector('#dt-due-date');
 const selPriority = document.querySelector('#sel-priority');
 const formAddTodo = document.querySelector('#form-add-todo');
 
-btnAdd.addEventListener('click', handleDialogOpen);
+// btnAdd.addEventListener('click', handleDialogOpen);
 btnClose.addEventListener('click', handleDialogClose);
 btnSave.addEventListener('click', handleSave);
 
