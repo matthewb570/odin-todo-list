@@ -16,7 +16,7 @@ class Project {
     }
 
     removeTodo(id) {
-        let indexToRemove = findTodoIndex(id);
+        let indexToRemove = this.findTodoIndex(id);
         this.todos.splice(indexToRemove, 1);
     }
 }

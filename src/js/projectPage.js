@@ -1,63 +1,78 @@
 import TodoPageComponent from './todoPageComponent.js';
 import DomUtils from './domUtils.js';
 import Todo from './todo.js';
+import NewTodoDialog from './newTodoDialog.js';
 
 class ProjectPage {
-    static createPage(container, project, returnFunction) {
-        DomUtils.clearContainer(container);
-        container.appendChild(ProjectPage.drawPageHeader(container, project, returnFunction));
-        container.appendChild(ProjectPage.drawPageContent(container, project, returnFunction));
-    }
+    
+    parentContainer;
+    project;
+    returnFunction;
+    newTodoDialog;
+    pageHeader;
 
-    // TODO: Replace "draw" with "create" throughout
-    static drawPageHeader(container, project, returnFunction) {
+    constructor(parentContainer, project, returnFunction) {
+        this.parentContainer = parentContainer;
+        this.project = project;
+        this.returnFunction = returnFunction;
+        this.newTodoDialog = new NewTodoDialog();
+        this.initializePageHeader();
+    }
+    
+    initializePageHeader() {
         const divPageTitle = document.createElement('div');
         divPageTitle.id = 'page-title';
-        divPageTitle.textContent = project.title;
+        divPageTitle.textContent = this.project.title;
 
         const btnAdd = document.createElement('button');
         btnAdd.id = 'btn-add-todo';
         btnAdd.type = 'button';
         btnAdd.classList.add('icon', 'plus');
         btnAdd.textContent = 'Add';
-        btnAdd.addEventListener('click', function() {
+        btnAdd.onclick = () => {
             // TODO: Replace with actual logic
-            project.addTodo(new Todo('Title', 'Description', '07/22/2024', 1, false));
-            ProjectPage.createPage(container, project, returnFunction);
-        });
+            this.project.addTodo(new Todo('Title', 'Description', '07/22/2024', 1, false));
+            this.draw();
+        };
 
         const btnBack = document.createElement('button');
         btnBack.id = 'btn-back';
         btnBack.type = 'button';
         btnBack.classList.add('icon', 'back');
         btnBack.textContent = 'Back';
-        btnBack.addEventListener('click', returnFunction);
+        btnBack.onclick = this.returnFunction;
 
-        const headPageHeader = document.createElement('header');
-        headPageHeader.appendChild(divPageTitle);
-        headPageHeader.appendChild(btnAdd);
-        headPageHeader.appendChild(btnBack);
-
-        return headPageHeader;
+        this.pageHeader = document.createElement('header');
+        this.pageHeader.appendChild(divPageTitle);
+        this.pageHeader.appendChild(btnAdd);
+        this.pageHeader.appendChild(btnBack);
     }
 
-    static drawPageContent(container, project, returnFunction) {
+    draw() {
+        DomUtils.clearContainer(this.parentContainer);
+
+        this.parentContainer.appendChild(this.pageHeader);
+        this.parentContainer.appendChild(this.createPageContent());
+        this.newTodoDialog.draw(this.parentContainer);
+    }
+    
+    createPageContent() {
         const divPageContent = document.createElement('div');
         divPageContent.id = 'content';
 
-        divPageContent.appendChild(ProjectPage.drawTodoList(container, project, returnFunction));
+        divPageContent.appendChild(this.createTodoList());
 
         return divPageContent;
     }
 
-    static drawTodoList(container, project, returnFunction) {
+    createTodoList() {
         const divTodoList = document.createElement('div');
         divTodoList.classList.add('todo-list');
 
-        project.todos.forEach(todo => {
+        this.project.todos.forEach(todo => {
             const deleteFunction = () => {
-                project.removeTodo(todo.id);
-                ProjectPage.createPage(container, project, returnFunction);
+                this.project.removeTodo(todo.id);
+                this.draw();
             }
             divTodoList.appendChild(TodoPageComponent.createTodoElement(todo, deleteFunction));
         });

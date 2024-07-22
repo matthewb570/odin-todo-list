@@ -69,13 +69,10 @@ class ProjectsPage {
         divProject.appendChild(this.createProjectTitle(project));
         divProject.appendChild(this.createProjectButtons(project));
 
-        const projectsPageReturnFunction = () => {
-            this.draw();
-        }
-
-        divProject.addEventListener('click', () => {
-            ProjectPage.createPage(this.parentContainer, project, projectsPageReturnFunction);
-        });
+        divProject.onclick = () => {
+            const projectPage = new ProjectPage(this.parentContainer, project, this.draw.bind(this));
+            projectPage.draw();
+        };
 
         return divProject;
     }
