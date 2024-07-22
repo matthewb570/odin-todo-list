@@ -11,8 +11,12 @@ class Project {
         this.todos.push(todo);
     }
 
+    findTodoIndex(id) {
+        return this.todos.findIndex(todo => todo.id === id);
+    }
+
     removeTodo(id) {
-        let indexToRemove = this.todos.findIndex(todo => todo.id === id);
+        let indexToRemove = findTodoIndex(id);
         this.todos.splice(indexToRemove, 1);
     }
 }
