@@ -10,6 +10,8 @@
     --back-icon: url('../images/arrow-u-left-top.svg');
 
     --secondary-text-color: rgb(90, 90, 90);
+    --textbox-accent-color: rgb(245, 245, 245);
+    --background-accent-color-light: rgb(250, 250, 250);
 
     font-family: 'Roboto', sans-serif;
 }
@@ -183,4 +185,71 @@ button.icon {
 
 button {
     cursor: pointer;
+}
+
+dialog {
+    border-width: 1px;
+    box-shadow: var(--standard-box-shadow);
+    background-color: var(--background-accent-color-light);
+    border-radius: 10px;
+    width: clamp(350px, 50%, 800px);
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+dialog .dialog-header {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.dialog-header .dialog-title {
+    flex: 1;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+label div {
+    padding-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    background-color: var(--textbox-accent-color);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: forestgreen;
+    outline: none;
+    box-shadow: var(--standard-box-shadow);
+}
+
+dialog form button {
+    align-self: center;
+
+    background-color: forestgreen;
+    color: white;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+    border-style: none;
+    border-radius: 20px;
+    padding: 5px 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

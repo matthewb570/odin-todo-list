@@ -3,6 +3,7 @@ import Project from "./project";
 class NewProjectDialog {
 
     dialog;
+    header;
     form;
     txtTitle;
     btnSave;
@@ -11,8 +12,20 @@ class NewProjectDialog {
     constructor() {
         this.initializeCloseButton()
         this.initializeSaveButton();
+        this.initializeHeader();
         this.initializeForm();
         this.initializeDialog();
+    }
+
+    initializeHeader() {
+        const dialogTitle = document.createElement('div');
+        dialogTitle.classList.add('dialog-title');
+        dialogTitle.textContent = 'Project Details';
+        
+        this.header = document.createElement('div');
+        this.header.classList.add('dialog-header');
+        this.header.appendChild(dialogTitle);
+        this.header.appendChild(this.btnClose);
     }
 
     initializeCloseButton() {
@@ -58,7 +71,7 @@ class NewProjectDialog {
     initializeDialog() {
         this.dialog = document.createElement('dialog');
         this.dialog.id = 'dialog-new-project';
-        this.dialog.appendChild(this.btnClose);
+        this.dialog.appendChild(this.header);
         this.dialog.appendChild(this.form);
     }
 
