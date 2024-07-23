@@ -27,7 +27,6 @@ class ProjectPage {
         btnBack.id = 'btn-back';
         btnBack.type = 'button';
         btnBack.classList.add('icon', 'back');
-        btnBack.textContent = 'Back';
         btnBack.onclick = this.returnFunction;
 
         const btnAdd = document.createElement('button');

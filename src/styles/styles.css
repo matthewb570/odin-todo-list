@@ -57,6 +57,14 @@ header {
     padding: 20px;
 }
 
+.project {
+    cursor: pointer;
+}
+
+.project:hover {
+    border-color: green;
+}
+
 .project,
 .todo {
     display: flex;
@@ -143,12 +151,26 @@ button.icon {
     mask-image: var(--pencil-icon);
 }
 
+.icon.edit:hover,
+.icon.back:hover {
+    background-color: goldenrod;
+}
+
 .icon.delete {
     mask-image: var(--trash-can-icon);
 }
 
+.icon.delete:hover,
+.icon.close:hover {
+    background-color: red;
+}
+
 .icon.add {
     mask-image: var(--plus-icon);
+}
+
+.icon.add:hover {
+    background-color: green;
 }
 
 .icon.close {
