@@ -5,6 +5,9 @@
 
     --trash-can-icon: url('../images/trash-can-outline.svg');
     --pencil-icon: url('../images/pencil-outline.svg');
+    --plus-icon: url('../images/plus.svg');
+    --close-icon: url('../images/close.svg');
+    --back-icon: url('../images/arrow-u-left-top.svg');
 
     --secondary-text-color: rgb(90, 90, 90);
 
@@ -82,7 +85,7 @@ header {
 
 .project .button-list {
     flex: 1;
-    
+
     justify-content: flex-end;
 }
 
@@ -108,8 +111,7 @@ header {
     color: var(--secondary-text-color);
 }
 
-.project button.icon,
-.todo button.icon {
+button.icon {
     border: none;
     background-color: black;
     height: 25px;
@@ -124,6 +126,18 @@ header {
 
 .icon.delete {
     mask-image: var(--trash-can-icon);
+}
+
+.icon.add {
+    mask-image: var(--plus-icon);
+}
+
+.icon.close {
+    mask-image: var(--close-icon);
+}
+
+.icon.back {
+    mask-image: var(--back-icon);
 }
 
 button {

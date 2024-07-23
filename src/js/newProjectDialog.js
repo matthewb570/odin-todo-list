@@ -18,11 +18,11 @@ class NewProjectDialog {
     initializeCloseButton() {
         this.btnClose = document.createElement('button');
         this.btnClose.id = 'btn-new-project-form-close';
-        this.btnClose.textContent = 'Close';
-        this.btnClose.addEventListener('click', () => {
+        this.btnClose.classList.add('icon', 'close');
+        this.btnClose.onclick = () => {
             this.dialog.close();
             this.form.reset();
-        })
+        };
     }
 
     initializeSaveButton() {

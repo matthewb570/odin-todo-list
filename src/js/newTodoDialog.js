@@ -21,8 +21,8 @@ class NewTodoDialog {
     initializeCloseButton() {
         this.btnClose = document.createElement('button');
         this.btnClose.id = 'btn-new-todo-form-close';
+        this.btnClose.classList.add('icon', 'close');
         this.btnClose.type = 'button';
-        this.btnClose.textContent = 'Close';
         this.btnClose.onclick = () => {
             this.dialog.close();
             this.form.reset();

@@ -23,15 +23,6 @@ class ProjectPage {
         divPageTitle.id = 'page-title';
         divPageTitle.textContent = this.project.title;
 
-        const btnAdd = document.createElement('button');
-        btnAdd.id = 'btn-add-todo';
-        btnAdd.type = 'button';
-        btnAdd.classList.add('icon', 'plus');
-        btnAdd.textContent = 'Add';
-        btnAdd.onclick = () => {
-            this.newTodoDialog.openDialog(null, this.project, this.draw.bind(this));
-        };
-
         const btnBack = document.createElement('button');
         btnBack.id = 'btn-back';
         btnBack.type = 'button';
@@ -39,10 +30,18 @@ class ProjectPage {
         btnBack.textContent = 'Back';
         btnBack.onclick = this.returnFunction;
 
+        const btnAdd = document.createElement('button');
+        btnAdd.id = 'btn-add-todo';
+        btnAdd.type = 'button';
+        btnAdd.classList.add('icon', 'add');
+        btnAdd.onclick = () => {
+            this.newTodoDialog.openDialog(null, this.project, this.draw.bind(this));
+        };
+
         this.pageHeader = document.createElement('header');
         this.pageHeader.appendChild(divPageTitle);
-        this.pageHeader.appendChild(btnAdd);
         this.pageHeader.appendChild(btnBack);
+        this.pageHeader.appendChild(btnAdd);
     }
 
     draw() {

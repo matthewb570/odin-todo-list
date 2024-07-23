@@ -24,11 +24,10 @@ class ProjectsPage {
         const btnAdd = document.createElement('button');
         btnAdd.id = 'btn-add';
         btnAdd.type = 'button'
-        btnAdd.classList.add('icon');
-        btnAdd.textContent = 'Add';
-        btnAdd.addEventListener('click', () => {
+        btnAdd.classList.add('icon', 'add');
+        btnAdd.onclick = () => {
             this.newProjectDialog.openDialog(null, this.projectList, this.draw.bind(this));
-        });
+        };
 
         this.pageHeader = document.createElement('header');
         this.pageHeader.appendChild(divPageTitle);
