@@ -48,7 +48,7 @@ header {
     flex-direction: column;
     gap: 20px;
 
-    width: 70%;
+    width: max(500px, 70%);
     padding: 20px;
 }
 
@@ -98,6 +98,7 @@ header {
     font-size: 1.2rem;
     color: var(--secondary-text-color);
     margin-right: 30px;
+    white-space: nowrap;
 }
 
 .project .project-title,
@@ -109,6 +110,19 @@ header {
 .todo .todo-description {
     font-size: 1.2rem;
     color: var(--secondary-text-color);
+}
+
+.todo .todo-text-content {
+    min-width: 20%;
+}
+
+.project .project-title,
+.todo .todo-title,
+.todo .todo-description {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0px;
 }
 
 button.icon {
