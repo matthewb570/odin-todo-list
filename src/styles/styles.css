@@ -20,6 +20,7 @@ body {
 }
 
 header {
+    background-color: white;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -27,6 +28,10 @@ header {
     height: 65px;
     box-shadow: var(--standard-box-shadow);
     padding: 0px 15px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 #page-title {
