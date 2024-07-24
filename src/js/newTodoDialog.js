@@ -45,7 +45,7 @@ class NewTodoDialog {
     initializeSaveButton() {
         this.btnSave = document.createElement('button');
         this.btnSave.id = 'btn-new-todo-form-save';
-        this.btnSave.type = 'button';
+        this.btnSave.type = 'submit';
         this.btnSave.textContent = 'Save';
     }
 
