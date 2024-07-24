@@ -86,7 +86,7 @@ class NewTodoDialog {
         this.txtTitle.id = 'txt-new-todo-title';
         this.txtTitle.name = 'txtTitle';
         this.txtTitle.type = 'text';
-        this.required = true;
+        this.txtTitle.required = true;
 
         const lblTitle = document.createElement('label');
         lblTitle.for = 'txt-new-todo-title';
@@ -180,23 +180,27 @@ class NewTodoDialog {
             this.txtDescription.value = existingTodo.description;
             this.btnSave.onclick = (event) => {
                 event.preventDefault();
-                let index = project.findTodoIndex(existingTodo.id);
-                project.todos[index].title = this.txtTitle.value;
-                project.todos[index].priority = this.selPriority.value;
-                project.todos[index].dueDate = this.dtDueDate.value;
-                project.todos[index].description = this.txtDescription.value;
-                this.dialog.close();
-                this.form.reset();
-                refreshPageFunction();
+                if (this.form.reportValidity()) {
+                    let index = project.findTodoIndex(existingTodo.id);
+                    project.todos[index].title = this.txtTitle.value;
+                    project.todos[index].priority = this.selPriority.value;
+                    project.todos[index].dueDate = this.dtDueDate.value;
+                    project.todos[index].description = this.txtDescription.value;
+                    this.dialog.close();
+                    this.form.reset();
+                    refreshPageFunction();
+                }
             };
         } else {
             this.btnSave.onclick = (event) => {
                 event.preventDefault();
-                let newTodo = new Todo(this.txtTitle.value, this.txtDescription.value, this.dtDueDate.value, this.selPriority.value, false);
-                project.addTodo(newTodo);
-                this.dialog.close();
-                this.form.reset();
-                refreshPageFunction();
+                if (this.form.reportValidity()) {
+                    let newTodo = new Todo(this.txtTitle.value, this.txtDescription.value, this.dtDueDate.value, this.selPriority.value, false);
+                    project.addTodo(newTodo);
+                    this.dialog.close();
+                    this.form.reset();
+                    refreshPageFunction();
+                }
             };
         }
         this.dialog.showModal();

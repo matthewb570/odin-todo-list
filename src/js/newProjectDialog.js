@@ -53,6 +53,7 @@ class NewProjectDialog {
         this.txtTitle.id = 'txt-new-project-title';
         this.txtTitle.name = 'txtTitle';
         this.txtTitle.type = 'text';
+        this.txtTitle.required = true;
 
         const lblTitle = document.createElement('label');
         lblTitle.for = 'txt-title';
@@ -84,20 +85,24 @@ class NewProjectDialog {
             this.txtTitle.value = existingProject.title;
             this.btnSave.onclick = (event) => {
                 event.preventDefault();
-                let index = projectList.findProjectIndex(existingProject.id);
-                projectList.projects[index].title = this.txtTitle.value;
-                this.dialog.close();
-                this.form.reset();
-                refreshPageFunction();
+                if (this.form.reportValidity()) {
+                    let index = projectList.findProjectIndex(existingProject.id);
+                    projectList.projects[index].title = this.txtTitle.value;
+                    this.dialog.close();
+                    this.form.reset();
+                    refreshPageFunction();
+                }
             };
         } else {
             this.btnSave.onclick = (event) => {
                 event.preventDefault();
-                let newProject = new Project(this.txtTitle.value, new Array());
-                projectList.addProject(newProject);
-                this.dialog.close();
-                this.form.reset();
-                refreshPageFunction();
+                if (this.form.reportValidity()) {
+                    let newProject = new Project(this.txtTitle.value, new Array());
+                    projectList.addProject(newProject);
+                    this.dialog.close();
+                    this.form.reset();
+                    refreshPageFunction();
+                }
             };
         }
         this.dialog.showModal();
