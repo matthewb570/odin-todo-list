@@ -3,7 +3,7 @@ class TodoDomUtils {
     static createTodoElement(todo, editFunction, deleteFunction) {
         const divTodo = document.createElement('div');
         divTodo.classList.add('todo');
-        divTodo.appendChild(this.createCheckbox(todo.isDone));
+        divTodo.appendChild(this.createCheckbox(todo));
         divTodo.appendChild(this.createTextContent(todo.title, todo.description));
         divTodo.appendChild(this.createDueDate(todo.dueDate));
         divTodo.appendChild(this.createButtons(editFunction, deleteFunction));
@@ -26,10 +26,11 @@ class TodoDomUtils {
         }
     }
 
-    static createCheckbox(isDone) {
+    static createCheckbox(todo) {
         const chkIsDone = document.createElement('input');
         chkIsDone.type = 'checkbox';
-        chkIsDone.checked = isDone;
+        chkIsDone.checked = todo.isDone;
+        chkIsDone.onclick = () => todo.reverseIsDone();
         return chkIsDone;
     }
 
