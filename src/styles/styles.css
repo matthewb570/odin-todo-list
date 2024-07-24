@@ -218,6 +218,8 @@ label div {
 }
 
 input[type="text"],
+select,
+input[type="date"],
 textarea {
     background-color: var(--textbox-accent-color);
     box-sizing: border-box;
@@ -230,10 +232,21 @@ textarea {
 }
 
 input[type="text"]:focus,
+select:focus,
+input[type="date"]:focus,
 textarea:focus {
     border-color: forestgreen;
     outline: none;
     box-shadow: var(--standard-box-shadow);
+}
+
+input[type="date"],
+textarea {
+    font-family: inherit;
+}
+
+textarea {
+    resize: none;
 }
 
 dialog form button {
@@ -248,8 +261,29 @@ dialog form button {
     padding: 5px 30px;
 }
 
-form {
+form,
+form .form-column {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+form .form-column {
+    flex: 1;
+}
+
+form .form-columns {
+    display: flex;
+    gap: 20px;
+}
+
+.form-column label {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.form-column textarea {
+    flex: 1;
 }

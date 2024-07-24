@@ -4,6 +4,7 @@ class NewTodoDialog {
 
     dialog;
     form;
+    header;
     txtTitle;
     txtDescription;
     selPriority;
@@ -14,8 +15,20 @@ class NewTodoDialog {
     constructor() {
         this.initializeCloseButton();
         this.initializeSaveButton();
+        this.initializeHeader();
         this.initializeForm();
         this.initializeDialog();
+    }
+
+    initializeHeader() {
+        const dialogTitle = document.createElement('div');
+        dialogTitle.classList.add('dialog-title');
+        dialogTitle.textContent = 'Todo Details';
+        
+        this.header = document.createElement('div');
+        this.header.classList.add('dialog-header');
+        this.header.appendChild(dialogTitle);
+        this.header.appendChild(this.btnClose);
     }
 
     initializeCloseButton() {
@@ -37,7 +50,6 @@ class NewTodoDialog {
     }
 
     initializeForm() {
-        
         const lblTitle = this.createFormTitleComponent();
         const lblPriority = this.createFormPriorityComponent();
         const lblDueDate = this.createFormDueDateComponent();
@@ -53,12 +65,16 @@ class NewTodoDialog {
         divColumn2.classList.add('form-column');
         divColumn2.appendChild(lblDescription);
 
+        const divFormColumns = document.createElement('div');
+        divFormColumns.classList.add('form-columns');
+        divFormColumns.appendChild(divColumn1);
+        divFormColumns.appendChild(divColumn2);
+
         this.form = document.createElement('form');
         this.form.id = 'form-new-todo';
         this.form.action = 'dialog';
 
-        this.form.appendChild(divColumn1);
-        this.form.appendChild(divColumn2);
+        this.form.appendChild(divFormColumns);
         this.form.appendChild(this.btnSave);
     }
 
@@ -132,10 +148,9 @@ class NewTodoDialog {
         const divDescriptionLabel = document.createElement('div');
         divDescriptionLabel.textContent = 'Description';
 
-        this.txtDescription = document.createElement('input');
+        this.txtDescription = document.createElement('textarea');
         this.txtDescription.id = 'txt-new-todo-description';
         this.txtDescription.name = 'txtDescription';
-        this.txtDescription.type = 'text';
         this.txtDescription.required = true;
 
         const lblDescription = document.createElement('label');
@@ -149,7 +164,7 @@ class NewTodoDialog {
     initializeDialog() {
         this.dialog = document.createElement('dialog');
         this.dialog.id = 'dialog-new-todo';
-        this.dialog.appendChild(this.btnClose);
+        this.dialog.appendChild(this.header);
         this.dialog.appendChild(this.form);
     }
 
