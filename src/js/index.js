@@ -2,8 +2,6 @@ import '../styles/styles.css';
 import ProjectsPage from './projectsPage.js';
 import LocalStorageUtils from './localStorageUtils.js';
 
-// TODO: Revise date formatting (optional)
-
 const body = document.querySelector('body');
 
 const projectList = LocalStorageUtils.readProjectList();
