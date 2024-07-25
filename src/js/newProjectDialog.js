@@ -80,7 +80,7 @@ class NewProjectDialog {
         container.appendChild(this.dialog);
     }
 
-    openDialog(existingProject, projectList, refreshPageFunction) {
+    openDialog(existingProject, projectList, refreshPageFunction, dataPersistenceFunction) {
         if (existingProject !== null) {
             this.txtTitle.value = existingProject.title;
             this.btnSave.onclick = (event) => {
@@ -88,6 +88,7 @@ class NewProjectDialog {
                 if (this.form.reportValidity()) {
                     let index = projectList.findProjectIndex(existingProject.id);
                     projectList.projects[index].title = this.txtTitle.value;
+                    dataPersistenceFunction();
                     this.dialog.close();
                     this.form.reset();
                     refreshPageFunction();
@@ -99,6 +100,7 @@ class NewProjectDialog {
                 if (this.form.reportValidity()) {
                     let newProject = new Project(this.txtTitle.value, new Array());
                     projectList.addProject(newProject);
+                    dataPersistenceFunction();
                     this.dialog.close();
                     this.form.reset();
                     refreshPageFunction();

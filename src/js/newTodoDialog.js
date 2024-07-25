@@ -172,7 +172,7 @@ class NewTodoDialog {
         container.appendChild(this.dialog);
     }
 
-    openDialog(existingTodo, project, refreshPageFunction) {
+    openDialog(existingTodo, project, refreshPageFunction, dataPersistenceFunction) {
         if (existingTodo !== null) {
             this.txtTitle.value = existingTodo.title;
             this.selPriority.value = existingTodo.priority;
@@ -186,6 +186,7 @@ class NewTodoDialog {
                     project.todos[index].priority = this.selPriority.value;
                     project.todos[index].dueDate = this.dtDueDate.value;
                     project.todos[index].description = this.txtDescription.value;
+                    dataPersistenceFunction();
                     this.dialog.close();
                     this.form.reset();
                     refreshPageFunction();
@@ -197,6 +198,7 @@ class NewTodoDialog {
                 if (this.form.reportValidity()) {
                     let newTodo = new Todo(this.txtTitle.value, this.txtDescription.value, this.dtDueDate.value, this.selPriority.value, false);
                     project.addTodo(newTodo);
+                    dataPersistenceFunction();
                     this.dialog.close();
                     this.form.reset();
                     refreshPageFunction();

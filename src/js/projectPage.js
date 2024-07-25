@@ -9,13 +9,15 @@ class ProjectPage {
     returnFunction;
     newTodoDialog;
     pageHeader;
+    dataPersistenceFunction;
 
-    constructor(parentContainer, project, returnFunction) {
+    constructor(parentContainer, project, returnFunction, dataPersistenceFunction) {
         this.parentContainer = parentContainer;
         this.project = project;
         this.returnFunction = returnFunction;
         this.newTodoDialog = new NewTodoDialog();
         this.initializePageHeader();
+        this.dataPersistenceFunction = dataPersistenceFunction;
     }
     
     initializePageHeader() {
@@ -34,7 +36,7 @@ class ProjectPage {
         btnAdd.type = 'button';
         btnAdd.classList.add('icon', 'add');
         btnAdd.onclick = () => {
-            this.newTodoDialog.openDialog(null, this.project, this.draw.bind(this));
+            this.newTodoDialog.openDialog(null, this.project, this.draw.bind(this), this.dataPersistenceFunction);
         };
 
         this.pageHeader = document.createElement('header');
@@ -66,13 +68,14 @@ class ProjectPage {
 
         this.project.todos.forEach(todo => {
             const editFunction = () => {
-                this.newTodoDialog.openDialog(todo, this.project, this.draw.bind(this));
+                this.newTodoDialog.openDialog(todo, this.project, this.draw.bind(this), this.dataPersistenceFunction);
             }
             const deleteFunction = () => {
                 this.project.removeTodo(todo.id);
+                this.dataPersistenceFunction();
                 this.draw();
             }
-            divTodoList.appendChild(TodoDomUtils.createTodoElement(todo, editFunction, deleteFunction));
+            divTodoList.appendChild(TodoDomUtils.createTodoElement(todo, editFunction, deleteFunction, this.dataPersistenceFunction));
         });
 
         return divTodoList;

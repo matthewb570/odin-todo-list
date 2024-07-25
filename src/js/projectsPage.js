@@ -8,12 +8,14 @@ class ProjectsPage {
     projectList;
     newProjectDialog;
     pageHeader;
+    dataPersistenceFunction;
     
-    constructor(parentContainer, projectList) {
+    constructor(parentContainer, projectList, dataPersistenceFunction) {
         this.parentContainer = parentContainer;
         this.projectList = projectList;
         this.newProjectDialog = new NewProjectDialog();
         this.initializePageHeader();
+        this.dataPersistenceFunction = dataPersistenceFunction;
     }
 
     initializePageHeader() {
@@ -26,7 +28,7 @@ class ProjectsPage {
         btnAdd.type = 'button'
         btnAdd.classList.add('icon', 'add');
         btnAdd.onclick = () => {
-            this.newProjectDialog.openDialog(null, this.projectList, this.draw.bind(this));
+            this.newProjectDialog.openDialog(null, this.projectList, this.draw.bind(this), this.dataPersistenceFunction);
         };
 
         this.pageHeader = document.createElement('header');
@@ -69,7 +71,7 @@ class ProjectsPage {
         divProject.appendChild(this.createProjectButtons(project));
 
         divProject.onclick = () => {
-            const projectPage = new ProjectPage(this.parentContainer, project, this.draw.bind(this));
+            const projectPage = new ProjectPage(this.parentContainer, project, this.draw.bind(this), this.dataPersistenceFunction);
             projectPage.draw();
         };
 
@@ -92,7 +94,7 @@ class ProjectsPage {
 
         btnEdit.addEventListener('click', (event) => {
             event.stopPropagation();
-            this.newProjectDialog.openDialog(project, this.projectList, this.draw.bind(this));
+            this.newProjectDialog.openDialog(project, this.projectList, this.draw.bind(this), this.dataPersistenceFunction);
         });
 
         const btnDelete = document.createElement('button');
@@ -101,6 +103,7 @@ class ProjectsPage {
         btnDelete.addEventListener('click', (event) => {
             event.stopPropagation();
             this.projectList.removeProject(project.id);
+            this.dataPersistenceFunction();
             this.draw();
         });
         
